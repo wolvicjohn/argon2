@@ -1,0 +1,139 @@
+/* styles.css */
+body {
+    font-family: 'Roboto', sans-serif; /* Modern font */
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Full height for vertical centering */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    background-color: #18181b; /* Dark background */
+    color: #ffffff; /* White text color */
+}
+
+.container {
+    text-align: center; /* Center text inside container */
+    padding: 40px; /* Increased padding for better spacing */
+    background-color: #23232a; /* Dark card background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+    max-width: 400px; /* Max width for better layout */
+    width: 90%; /* Responsive width */
+    overflow: hidden; /* Prevents overflow of content */
+}
+
+h2 {
+    color: #9146ff; /* Twitch purple */
+    margin-bottom: 20px; /* Reduced margin for better spacing */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    margin: 10px 0;
+    padding: 15px;
+    width: 100%; /* Full width for input fields */
+    border: 1px solid #9146ff; /* Twitch purple border */
+    border-radius: 5px;
+    background-color: #23232a; /* Dark input background */
+    color: #ffffff; /* White text color */
+}
+
+input:focus {
+    outline: none;
+    border-color: #ff477e; /* Pink border on focus */
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #9146ff; /* Twitch purple */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin-top: 20px; /* Spacing above the button */
+    width: 100%; /* Full width button */
+}
+
+button:hover {
+    background-color: #7e3af2; /* Darker purple on hover */
+}
+
+.password-strength {
+    margin-top: 10px;
+    height: 10px;
+    width: 100%; /* Full width for strength meter */
+    background-color: #444; /* Darker background for strength meter */
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0%; /* Default width is 0% */
+    transition: width 0.3s ease-in-out; /* Smooth transition for width */
+}
+
+.strength-weak {
+    background-color: red; /* Red for weak */
+}
+
+.strength-medium {
+    background-color: orange; /* Orange for medium */
+}
+
+.strength-strong {
+    background-color: #4CAF50; /* Green for strong */
+}
+
+.message {
+    margin-top: 10px;
+    font-size: 16px; /* Increased font size for visibility */
+    font-weight: bold;
+    text-align: center; /* Centered text */
+    padding: 10px; /* Padding for better spacing */
+    border-radius: 5px; /* Rounded corners */
+    display: inline-block; /* Makes width fit content */
+}
+
+/* Success message styles */
+.message.success {
+    color: #4CAF50; /* Green for success */
+    background-color: rgba(76, 175, 80, 0.1); /* Light green background */
+}
+
+/* Error message styles */
+.message.error {
+    color: #f44336; /* Red for error */
+    background-color: rgba(244, 67, 54, 0.1); /* Light red background */
+}
+
+/* Link styles */
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #9146ff; /* Twitch purple */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #7e3af2; /* Darker purple on hover */
+}
+
+/* User details styles */
+.user-details {
+    text-align: left; /* Left-align for better readability */
+    margin-top: 20px; /* Space above user details */
+    word-wrap: break-word; /* Allows long text to wrap within the container */
+}
+
+.user-details p {
+    margin: 5px 0; /* Space between paragraphs */
+    overflow-wrap: break-word; /* Break long words */
+}

@@ -1,0 +1,153 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #141414; /* Dark background for contrast */
+    margin: 0;
+    padding: 0;
+    color: #ffffff; /* White text for contrast */
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full viewport height */
+}
+
+/* Common box styles */
+.box {
+    background-color: #1e1e1e; /* Dark grey background for the box */
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+    padding: 30px; /* Inner padding */
+    width: 100%;
+    max-width: 400px; /* Max width for the box */
+    text-align: center; /* Center text */
+    transition: transform 0.2s ease; /* Animation for hover effect */
+}
+
+.box:hover {
+    transform: scale(1.02); /* Slightly scale up on hover */
+}
+
+h2 {
+    color: #9146ff; /* Twitch purple */
+    margin-bottom: 20px; /* Space below heading */
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block; /* Block display for labels */
+    color: #ffffff; /* White color for better contrast */
+}
+
+input {
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #444; /* Darker border for input */
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #2a2a2a; /* Darker input background */
+    color: #ffffff; /* White text for inputs */
+    transition: border-color 0.3s; /* Transition for border color */
+}
+
+input:focus {
+    border-color: #9146ff; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #9146ff; /* Twitch purple */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s, transform 0.2s; /* Transition for background and scale */
+}
+
+button:hover {
+    background-color: #7e3bba; /* Darker purple on hover */
+    transform: translateY(-2px); /* Lift effect on hover */
+}
+
+.password-strength {
+    margin-top: 10px;
+    height: 10px;
+    width: 100%;
+    background-color: #444; /* Darker background for strength bar */
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease-in-out;
+}
+
+.strength-weak {
+    background-color: red;
+}
+
+.strength-medium {
+    background-color: orange;
+}
+
+.strength-strong {
+    background-color: green;
+}
+
+.message {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff; /* White color for messages */
+}
+
+.message.success {
+    color: #00b300; /* Success message color */
+}
+
+.message.error {
+    color: #e63946; /* Error message color */
+}
+
+a {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+    text-decoration: none;
+    color: #9146ff; /* Twitch purple */
+    font-weight: bold; /* Make links bolder */
+    transition: color 0.3s; /* Transition for link color */
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #7e3bba; /* Darker purple on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .box {
+        padding: 20px; /* Less padding on small screens */
+    }
+
+    h2 {
+        font-size: 1.5em; /* Adjust heading size for mobile */
+    }
+
+    button {
+        padding: 10px; /* Adjust button size for mobile */
+    }
+}
+
+/* Specific styles for registration and login */
+.registration-box, .login-box {
+    @extend .box; /* Use common box styles */
+}
