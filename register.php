@@ -2,7 +2,9 @@
 // Include the database connection
 require 'db.php';
 
-$message = ''; // Initialize message variable
+$message = ''; 
+define('PEPPER', 'your_random_pepper_value');
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
@@ -15,16 +17,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->fetch()) {
         $message = '<div class="message error">Username already taken</div>';
     } else {
-        // Hash password with Argon2
-        $passwordHash = password_hash($password, PASSWORD_ARGON2ID);
+        // Generate a random salt
+        $salt = bin2hex(random_bytes(16));
 
-        // Insert user into database with both hashed password and plain password
-        $stmt = $pdo->prepare('INSERT INTO users (username, password, password_hash) VALUES (?, ?, ?)');
-        $stmt->execute([$username, $password, $passwordHash]);
+        // Add pepper (constant secret value)
+        $pepperedPassword = hash_hmac('sha256', $password, PEPPER);
+
+        // Combine password, salt, and pepper before hashing
+        $passwordHash = password_hash($pepperedPassword . $salt, PASSWORD_ARGON2ID);
+
+        // Insert user into the database with the salt and hashed password
+        $stmt = $pdo->prepare('INSERT INTO users (username, password_hash, salt) VALUES (?, ?, ?)');
+        $stmt->execute([$username, $passwordHash, $salt]);
 
         $message = '<div class="message success">User registered successfully!</div>';
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

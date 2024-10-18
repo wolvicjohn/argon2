@@ -2,6 +2,8 @@
 // Start the session
 session_start();
 
+define('PEPPER', 'your_random_pepper_value');
+
 // Database connection
 $host = 'localhost';
 $db = 'argon2_auth';
@@ -20,23 +22,33 @@ try {
     die("Database connection failed: " . $e->getMessage());
 }
 
+// Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Find the user in the database
-    $stmt = $pdo->prepare('SELECT id, password_hash FROM users WHERE username = ?');
+    // Fetch the salt and password hash from the database
+    $stmt = $pdo->prepare('SELECT password_hash, salt FROM users WHERE username = ?');
     $stmt->execute([$username]);
     $user = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password_hash'])) {
-        // Password is correct, start a session and redirect to the profile page
-        $_SESSION['username'] = $username; // Store the username in session
-        header("Location: profile.php");
-        exit; // Ensure no further code is executed
+    if ($user) {
+        $pepperedPassword = hash_hmac('sha256', $password, PEPPER);
+        $hashedPassword = $pepperedPassword . $user['salt'];
+
+        // Verify the password
+        if (password_verify($hashedPassword, $user['password_hash'])) {
+            // Store user information in the session
+            $_SESSION['username'] = $username;
+
+            // Redirect to profile.php
+            header('Location: profile.php');
+            exit(); // Always call exit() after a redirect
+        } else {
+            echo 'Invalid username or password.';
+        }
     } else {
-        // Invalid credentials
-        echo "Invalid username or password.";
+        echo 'Invalid username or password.';
     }
 }
 ?>

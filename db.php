@@ -1,4 +1,6 @@
 <?php
+define('PEPPER', 'your_random_pepper_value');
+
 // db.php
 $host = 'localhost';
 $db = 'argon2_auth';
