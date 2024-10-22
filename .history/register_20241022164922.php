@@ -3,9 +3,10 @@
 require 'db.php';
 
 $message = '';
+define('PEPPER', 'my_pepper_value');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
     // Check if username exists
     $stmt = $pdo->prepare('SELECT id FROM users WHERE username = ?');
@@ -24,11 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Hash the final password using Argon2ID
         $passwordHash = password_hash($saltedPassword, PASSWORD_ARGON2ID);
 
-        // Insert user into the database with salt
+        // Insert user into the database with salt and pepper
         $stmt = $pdo->prepare(
-            'INSERT INTO users (username, password_hash, salt) VALUES (?, ?, ?)'
+            'INSERT INTO users (username, password_hash, salt, pepper) VALUES (?, ?, ?, ?)'
         );
-        $stmt->execute([$username, $passwordHash, $salt]);
+        $stmt->execute([$username, $passwordHash, $salt, PEPPER]);
 
         $message = '<div class="message success">User registered successfully!</div>';
     }

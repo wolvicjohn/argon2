@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Hash the final password using Argon2ID
         $passwordHash = password_hash($saltedPassword, PASSWORD_ARGON2ID);
 
-        // Insert user into the database with salt
+        // Insert user into the database with salt and pepper
         $stmt = $pdo->prepare(
             'INSERT INTO users (username, password_hash, salt) VALUES (?, ?, ?)'
         );
@@ -37,13 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
     <div class="container">
         <h2>Register</h2>
@@ -53,11 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" required>
-
-            <div class="password-strength">
-                <div class="strength-bar" id="strength-bar"></div>
-            </div>
-            <p class="message" id="strength-text">Enter a password</p>
 
             <?php if ($message): ?>
                 <?= $message; ?>
@@ -70,5 +63,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script src="script.js"></script>
 </body>
-
 </html>

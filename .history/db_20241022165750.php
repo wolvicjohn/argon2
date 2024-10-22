@@ -3,13 +3,13 @@
 session_start();
 
 // Define the pepper as a server-side constant
-define('PEPPER', 'pares-overload');
+define('PEPPER', 'pares-overload'); 
 
 // Database connection details
 $host = 'localhost';
 $db = 'argon2_auth';
-$user = 'root';
-$pass = '';
+$user = 'root';  // Update with your database username if needed
+$pass = '';     
 
 // Database connection options
 $dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";

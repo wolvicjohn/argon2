@@ -2,10 +2,12 @@
 // Include the database connection
 require 'db.php';
 
-$message = '';
+$message = ''; 
+define('PEPPER', 'my_pepper_value'); // Server-side constant
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
     // Check if username exists
     $stmt = $pdo->prepare('SELECT id FROM users WHERE username = ?');
@@ -18,17 +20,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $salt = bin2hex(random_bytes(16));
 
         // Combine password with salt and pepper
-        $pepperedPassword = hash_hmac('sha256', $password, PEPPER);
+        $pepperedPassword = hash_hmac('sha256', $password, PEPPER); 
         $saltedPassword = $pepperedPassword . $salt;
 
         // Hash the final password using Argon2ID
         $passwordHash = password_hash($saltedPassword, PASSWORD_ARGON2ID);
 
-        // Insert user into the database with salt
+        // Insert user into the database with salt and pepper
         $stmt = $pdo->prepare(
-            'INSERT INTO users (username, password_hash, salt) VALUES (?, ?, ?)'
+            'INSERT INTO users (username, password_hash, salt, pepper) VALUES (?, ?, ?, ?)'
         );
-        $stmt->execute([$username, $passwordHash, $salt]);
+        $stmt->execute([$username, $passwordHash, $salt, PEPPER]);
 
         $message = '<div class="message success">User registered successfully!</div>';
     }
@@ -37,13 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
     <div class="container">
         <h2>Register</h2>
@@ -70,5 +70,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script src="script.js"></script>
 </body>
-
 </html>

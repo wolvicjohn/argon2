@@ -2,6 +2,7 @@
 // Include the database connection
 require 'db.php';
 
+
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);

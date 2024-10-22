@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $salt = bin2hex(random_bytes(16));
 
         // Combine password with salt and pepper
-        $pepperedPassword = hash_hmac('sha256', $password, PEPPER);
+        $pepperedPassword = hash_hmac('argon2', $password, PEPPER);
         $saltedPassword = $pepperedPassword . $salt;
 
         // Hash the final password using Argon2ID

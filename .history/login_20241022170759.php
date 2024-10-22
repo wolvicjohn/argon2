@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($user) {
         // Combine the password with the server-side pepper
-        $pepperedPassword = hash_hmac('sha256', $password, PEPPER);
+        $pepperedPassword = hash_hmac('argon2', $password, PEPPER);
         // Concatenate the peppered password with the stored salt
         $saltedPassword = $pepperedPassword . $user['salt'];
 

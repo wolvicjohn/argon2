@@ -1,13 +1,35 @@
 <?php
-// Include the database connection
-require 'db.php';
+// Start the session
+session_start();
 
-$error = '';
+// Define the pepper as a server-side constant (do not store this in the database)
+define('PEPPER', 'your_random_pepper_value');
+
+// Database connection details
+$host = 'localhost';
+$db = 'argon2_auth';
+$user = 'root';  // Update with your database username if needed
+$pass = '';      // Update with your database password if needed
+
+// Database connection options
+$dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+];
+
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+// Handle the form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    // Fetch the stored password hash and salt for the user
+    // Fetch the stored password hash, salt, and pepper for the user
     $stmt = $pdo->prepare('SELECT password_hash, salt FROM users WHERE username = ?');
     $stmt->execute([$username]);
     $user = $stmt->fetch();
@@ -15,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user) {
         // Combine the password with the server-side pepper
         $pepperedPassword = hash_hmac('sha256', $password, PEPPER);
+
         // Concatenate the peppered password with the stored salt
         $saltedPassword = $pepperedPassword . $user['salt'];
 
@@ -22,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (password_verify($saltedPassword, $user['password_hash'])) {
             // Store the username in the session
             $_SESSION['username'] = $username;
+
             // Redirect to profile.php
             header('Location: profile.php');
             exit(); // Always exit after redirect
@@ -40,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
 </head>
 
 <body>
@@ -56,6 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit">Login</button>
 
             <br><br>
+
+            <!-- Link to the registration page -->
             <a href="register.php" class="button">Register Account</a>
 
             <!-- Display error message if any -->

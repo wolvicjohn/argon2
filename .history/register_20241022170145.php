@@ -2,6 +2,9 @@
 // Include the database connection
 require 'db.php';
 
+// Define the pepper as a server-side constant
+define('PEPPER', 'pares-overload'); // Ensure this is a secure value
+
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
